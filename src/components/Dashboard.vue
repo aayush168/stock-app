@@ -1,4 +1,5 @@
 <template>
+<section class="hero is-fullheight">
   <div class="tile is-ancestor">
   <div class="tile is-parent">
     <div class="tile is-child box">
@@ -14,6 +15,7 @@
     </div>
   </div>
 </div>
+</section>
 </template>
 
 <script>

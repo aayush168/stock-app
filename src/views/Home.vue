@@ -4,7 +4,7 @@
     <br>
     <dashboard class="dashboard"/>
     <br>
-    <compant-setup/>
+    <company-setup/>
   </div>
 </template>
 
@@ -12,14 +12,14 @@
 
 import Navbar from '@/components/Navbar'
 import Dashboard from '@/components/Dashboard'
-import CompantSetup from '@/components/CompantSetup'
+import CompanySetup from '@/components/CompanySetup'
 
 export default {
   name: 'home',
   components: {
     Navbar,
     Dashboard,
-    CompantSetup
+    CompanySetup
   }
 }
 </script>
