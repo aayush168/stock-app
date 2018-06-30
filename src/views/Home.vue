@@ -9,7 +9,7 @@
 </template>
 
 <script>
-
+import { mapGetters } from 'vuex'
 import Navbar from '@/components/Navbar'
 import Dashboard from '@/components/Dashboard'
 import CompanySetup from '@/components/CompanySetup'
@@ -20,7 +20,10 @@ export default {
     Navbar,
     Dashboard,
     CompanySetup
-  }
+  },
+  computed: {
+    ...mapGetters(['isLoggedIn'])
+  },
 }
 </script>
 <style lang="stylus">

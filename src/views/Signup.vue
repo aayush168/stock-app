@@ -10,7 +10,7 @@
                   Welcome to StockApp
               </figure>
               <br>
-              <form>
+              <form @submit.prevent="createNewUser()">
                 <div class="field">
                   <b-input v-model="email" type="email" placeholder="Your Email" required></b-input>
                 </div>
@@ -18,8 +18,10 @@
                   <b-input v-model="password" type="password" placeholder="Your Password" autofocus="" required></b-input>
                 </div>
                 <br>
-                <button class="button is-block is-info is-fullwidth" @click="login()">Register</button>
-              </form>           
+                <button class="button is-block is-info is-fullwidth" @click="createNewUser()">Register</button>
+              </form>
+              <br>
+              <button class="button is-block is-fullwidth is-danger" @click="pushtoLogin()">Back</button>           
             </div>
             <p class="has-text-grey">
               <a href="../">Terms & Conditions</a>
@@ -42,7 +44,15 @@
     }
   },
   methods: {
-    registerNewUser() {
+    ...mapActions(['signUp']),
+    createNewUser() {
+      this.signUp({
+        email: this.email,
+        password: this.password
+      })
+    },
+    pushtoLogin() {
+      this.$router.push('/login')
     }
   }
   }

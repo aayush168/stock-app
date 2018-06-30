@@ -11,7 +11,7 @@
                     <img src="https://placehold.it/128x128">
                 </figure>
                 <br>
-                <form>
+                <form @submit.prevent="loginUser()">
                   <div class="field">
                     <b-input v-model="email" type="email" placeholder="Your Email" required></b-input>
                   </div>
@@ -23,13 +23,13 @@
                       <input type="checkbox"> Remember me
                     </label>
                   </div>
-                  <button class="button is-block is-info is-fullwidth" @click="login()">Login</button>
+                  <button class="button is-block is-info is-fullwidth" @click="loginUser()">Login</button>
                 </form>
                 <br>
-                <button class="button is-block is-fullwidth" @click="login()">Login With Google</button>              
+                <button class="button is-block is-fullwidth" @click="googleLoginUser()">Login With Google</button>              
               </div>
               <p class="has-text-grey">
-                  <a href="../">Sign Up</a> &nbsp;·&nbsp;
+                  <a @click="pushtoSignUp()">Sign Up</a> &nbsp;·&nbsp;
                   <a href="../">Forgot Password</a> &nbsp;·&nbsp;
               </p>
           </div>
@@ -50,12 +50,18 @@ export default {
     }
   },
   methods: {
-    ...mapActions((['userSignIn'])),
-    login() {
-      this.userSignIn({
+    ...mapActions((['login', 'googleLogin'])),
+    loginUser() {
+      this.login({
         email: this.email,
         password: this.password,
       })
+    },
+    googleLoginUser() {
+      this.googleLogin()
+    },
+    pushtoSignUp() {
+      this.$router.push('/signup')
     }
   }
 }

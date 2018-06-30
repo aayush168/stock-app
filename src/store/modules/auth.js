@@ -1,12 +1,12 @@
-import firebase from "@/firebase/init"
-import db from "@/firebase/db"
-import router from "@/router"
+import firebase from "@/firebase/init";
+import db from "@/firebase/db";
+import router from "@/router";
 
 function initialState() {
   return {
     user: {},
     isLoggedIn: false,
-    loginLoader: false
+    pending: false
   }
 }
 const state = {
@@ -14,8 +14,8 @@ const state = {
 }
 
 const getters = {
+  pending: state => state.pending,
   isLoggedIn: state => state.isLoggedIn,
-  loginLoader: state => state.loginLoader,
   user: state => state.user
 }
 
@@ -38,41 +38,26 @@ const mutations = {
 }
 
 const actions = {
-  async checkUserLoginStatus({ commit }) {
-    await firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        if (user.user) {
-          user = user.user;
-        }
-        const setUser = {
-          id: user.uid,
-          username: user.email,
-        };
-        commit('setUser', setUser);
-        router.push('/');
-      } else {
-        router.push('/login');
-      }
-    });
+  login({commit}, payload) {
+    firebase.auth().signInWithEmailAndPassword(payload.email, payload.password).catch(err => {
+      
+    })
   },
-  async login({ commit, dispatch }, payload) {
-    await firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
-  },
-  async logout({ commit }) {
-    await firebase.auth().signOut().then(() => {
+  logout({ commit }) {
+    firebase.auth().signOut().then(() => {
       commit('clearUserData')
       router.push('/login')
-    }
-    )
+    })
   },
-  async signUp({ commit }, payload) {
-    await firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password).then(() => {
-      const setUser = {
-        id: user.uid,
-        username: user.email,
-        created_at: firebase.firestore.FieldValue.serverTimestamp(),
-      };
-      db.collection('users').doc(setUser.id).set(setUser);
+  async googleLogin() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    await firebase.auth().signInWithPopup(provider);
+  },
+  signUp({commit}, payload) {
+    firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password).then(res => {
+
+    }).catch(err => {
+
     })
   }
 }

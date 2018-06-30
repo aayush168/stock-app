@@ -67,18 +67,41 @@
           </div>
         </div>
       </div>
+      <div class="navbar-end" :class="{ 'is-active': showNav }">
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="/">
+            {{user.name}}
+          </a>            
+          <div class="navbar-dropdown is-boxed">
+            <a class="navbar-item" @click="logoutUser()">
+              Log-out
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
+    
   </nav>
 </template>
 
 <script>
-  
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   data () {
     return {
       showNav: false
     }
   },
+  computed: {
+    ...mapGetters(['user'])
+  },
+  methods: {
+    ...mapActions(['logout']),
+    logoutUser() {
+      this.logout()
+    }
+  }
 }
 </script>
 
