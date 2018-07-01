@@ -24,7 +24,7 @@ const mutations = {
 
 const actions = {
   createCompanyProfile(context, payload) {
-    db.collection('users').doc(context.rootState.auth.user.id).collection('company-profile').doc(payload.companyName).set(payload);    
+    db.collection('company').doc(context.rootState.auth.user.id).set(payload);    
   }
 }
 

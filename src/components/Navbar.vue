@@ -58,8 +58,10 @@
             Inventory
           </a>            
           <div class="navbar-dropdown is-boxed">
-            <a class="navbar-item" href="/documentation/overview/start/">
-              Add Products
+            <a class="navbar-item">
+              <router-link to="/addProducts">
+                Add Products
+              </router-link>
             </a>
             <a class="navbar-item" href="/documentation/overview/start/">
               View Inventory

@@ -2,9 +2,11 @@ import Vue from 'vue'
 import firebase from '@/firebase/init'
 import Router from 'vue-router'
 import store from '@/store/index'
+
 import Home from './views/Home'
 import Login from './views/Login'
 import Signup from './views/Signup'
+import AddProducts from './components/AddProducts'
 
 Vue.use(Router)
 
@@ -15,7 +17,14 @@ const router =  new Router({
       path: '/',
       name: 'home',
       component: Home,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: '/addProducts',
+          name: 'addProducts',
+          component: AddProducts
+        },
+      ]
     },
     {
       path: '/login',
@@ -28,6 +37,10 @@ const router =  new Router({
       name: 'signup',
       component: Signup,
       meta: { public: true }
+    },
+    { // Always leave this as last one
+      path: '*',
+      component: () => import('./views/404')
     }
   ]
 })
