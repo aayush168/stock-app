@@ -7,6 +7,7 @@ import Home from './views/Home'
 import Login from './views/Login'
 import Signup from './views/Signup'
 import AddProducts from './components/AddProducts'
+import InventoryList from './components/InventoryList'
 
 Vue.use(Router)
 
@@ -17,26 +18,46 @@ const router =  new Router({
       path: '/',
       name: 'home',
       component: Home,
-      meta: { requiresAuth: true },
-      children: [
-        {
-          path: '/addProducts',
-          name: 'addProducts',
-          component: AddProducts
-        },
-      ]
+      meta: { 
+        requiresAuth: true,
+        layout: 'LayoutMain'
+      }
+    },
+    {
+      path: '/addProducts',
+      name: 'addProducts',
+      component: AddProducts,
+      meta: {
+        requiresAuth: true,
+        layout: 'LayoutMain'
+      }
+    },
+    {
+      path: '/inventoryList',
+      name: 'inventoryList',
+      component: InventoryList,
+      meta: {
+        requiresAuth: true,
+        layout: 'LayoutMain'
+      }
     },
     {
       path: '/login',
       name: 'login',
       component: Login,
-      meta: { public : true }
+      meta: { 
+        public : true,
+        layout: 'default'
+      }
     },
     {
       path: '/signup',
       name: 'signup',
       component: Signup,
-      meta: { public: true }
+      meta: {
+        public: true,
+        layout: 'default'
+      }
     },
     { // Always leave this as last one
       path: '*',

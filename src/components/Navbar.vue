@@ -64,7 +64,9 @@
               </router-link>
             </a>
             <a class="navbar-item" href="/documentation/overview/start/">
-              View Inventory
+              <router-link to="/inventoryList">
+                Inventory List
+              </router-link>
             </a>
           </div>
         </div>

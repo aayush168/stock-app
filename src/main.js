@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Buefy from 'buefy';
 import 'buefy/lib/buefy.css';
+import { VueExtendLayout, layout } from 'vue-extend-layout'
 
 /* eslint-disable */
 import firebase from './firebase/init';
@@ -13,9 +14,11 @@ import store from './store/index';
 
 Vue.config.productionTip = false
 Vue.use(Buefy)
+Vue.use(VueExtendLayout)
 
 new Vue({
   router,
   store,
+  ...layout,
   render: h => h(App)
 }).$mount('#app')
