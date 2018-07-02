@@ -20,8 +20,10 @@
             Accounts
           </a>
           <div class="navbar-dropdown is-boxed is-dark">
-            <a class="navbar-item" href="/documentation/overview/start/">
+            <a class="navbar-item">
+            <router-link to="/addInvoice">
               Sales
+            </router-link>
             </a>
             <a class="navbar-item" href="https://bulma.io/documentation/modifiers/syntax/">
               Purchases
@@ -63,7 +65,7 @@
                 Add Products
               </router-link>
             </a>
-            <a class="navbar-item" href="/documentation/overview/start/">
+            <a class="navbar-item">
               <router-link to="/inventoryList">
                 Inventory List
               </router-link>

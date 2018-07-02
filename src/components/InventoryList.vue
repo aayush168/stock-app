@@ -1,5 +1,6 @@
 <template>
   <div class="mainWrapper">
+    <h2 class="subtitle is-4">Inventory List</h2>
     <b-table :data="data" :columns="columns"></b-table>
   </div>
 </template>

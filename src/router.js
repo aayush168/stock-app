@@ -8,6 +8,7 @@ import Login from './views/Login'
 import Signup from './views/Signup'
 import AddProducts from './components/AddProducts'
 import InventoryList from './components/InventoryList'
+import AddInvoice from './components/AddInvoice'
 
 Vue.use(Router)
 
@@ -27,6 +28,15 @@ const router =  new Router({
       path: '/addProducts',
       name: 'addProducts',
       component: AddProducts,
+      meta: {
+        requiresAuth: true,
+        layout: 'LayoutMain'
+      }
+    },
+    {
+      path: '/addInvoice',
+      name: 'addInvoice',
+      component: AddInvoice,
       meta: {
         requiresAuth: true,
         layout: 'LayoutMain'
