@@ -22,9 +22,6 @@
         <b-field label="Product Name">
           <b-input v-model="clientName" required type="text"></b-input>
         </b-field>
-        <b-field label="Product Description">
-          <b-input v-model="clientName" required type="text"></b-input>
-        </b-field>
         <b-field label="Quanity">
           <b-input v-model="clientName" required type="text"></b-input>
         </b-field>
@@ -51,6 +48,9 @@ export default {
 
 <style lang="stylus">
 .invoiceHeader {
+  display: flex;
+}
+.invoiceMain {
   display: flex;
 }
 </style>
