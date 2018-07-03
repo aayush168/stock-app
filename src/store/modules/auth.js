@@ -40,7 +40,6 @@ const mutations = {
 const actions = {
   login({commit}, payload) {
     firebase.auth().signInWithEmailAndPassword(payload.email, payload.password).catch(err => {
-      
     })
   },
   logout({ commit }) {
@@ -53,11 +52,13 @@ const actions = {
     const provider = new firebase.auth.GoogleAuthProvider();
     await firebase.auth().signInWithPopup(provider);
   },
-  signUp({commit}, payload) {
-    firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password).then(res => {
-
+  signUp({ commit,state }, payload) {
+    state.pending = true
+    return firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password).then(res => {
+      state.pending = false
     }).catch(err => {
-
+      state.pending = false      
+      throw err
     })
   }
 }

@@ -1,24 +1,22 @@
 <template>
-  <div class="login">
+  <div class="signUpWrapper">
     <section class="hero is-fullheight">
       <div class="hero-body">
         <div class="container has-text-centered">
           <div class="column is-4 is-offset-4">
             <h3 class="title has-text-grey">Sign-Up</h3>
             <div class="box">
-              <figure class="avatar">
-                  Welcome to StockApp
-              </figure>
-              <br>
+                <h2 class="subtitle has-text-grey">Welcome to StockApp</h2>
               <form @submit.prevent="createNewUser()">
-                <div class="field">
-                  <b-input v-model="email" type="email" placeholder="Your Email" required></b-input>
-                </div>
-                <div class="field">
-                  <b-input v-model="password" type="password" placeholder="Your Password" autofocus="" required></b-input>
-                </div>
+                <custom-input v-model='form.email' name="email" type="email" :formData="form" label="Email" :handler="$v" placeholder="Your Email" required @change="inputChange('email')"/>
+                <custom-input v-model='form.password' name="password" type="password" label="Password" :formData="form" :handler="$v" placeholder="Your Password" required/>
                 <br>
-                <button class="button is-block is-info is-fullwidth" @click="createNewUser()">Register</button>
+                <div class="field has-text-grey">
+                  <b-checkbox v-model="form.checkbox" type="is-success">
+                    Terms and Conditions
+                  </b-checkbox>
+                </div>
+                <button :class="pending ? 'button is-block is-light is-fullwidth is-loading':'button is-block is-light is-fullwidth'" id="signUpButton" :loading="pending">Register</button>
               </form>
               <br>
               <button class="button is-block is-fullwidth is-danger" @click="pushtoLogin()">Back</button>           
@@ -34,26 +32,97 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex'
+
+import { mapActions, mapGetters } from 'vuex';
+import CustomInput from '@/components/CustomInput'; 
   
-  export default {
+export default {
   data () {
     return {
-      email: '',
-      password: ''
+      form: {
+        email: '',
+        password: '',
+        checkbox: false,
+        errorMessages: {
+          email: {
+            usernameExist: 'The email address is already in use by another account'
+          },
+          password: {
+            validPassword: 'Must have an alphabet and a number'
+          }
+        },
+        errorResponses: {
+          email: {
+            'Member.Username.Exist': false
+          }
+        }
+      }
     }
+  },
+  validations: {
+    form: {
+      email: {
+        usernameExist() {
+           return !this.form.errorResponses.email['Member.Username.Exist']
+        }
+      },
+      password: {
+        validPassword(value) {
+          if (value === '') {
+            return true
+          }
+          else {
+            return /(?=.*[0-9])(?=.*[a-zA-Z])/i.test(value)
+          }
+        },
+      }
+    }
+  },
+  computed: {
+    ...mapGetters(['pending'])
+  },
+  components: {
+    CustomInput
   },
   methods: {
     ...mapActions(['signUp']),
     createNewUser() {
-      this.signUp({
-        email: this.email,
-        password: this.password
+      this.$v.form.$touch()
+      if(this.$v.form.$error) {
+        console.log('error')
+      } else {
+        this.signUp({
+          email: this.form.email,
+          password: this.form.password
+        }).catch(err => {
+          if(err.code === 'auth/email-already-in-use') {
+            this.form.errorResponses.email['Member.Username.Exist'] = true
+          } else {
+            this.$snackbar.open({
+              message: err.message,
+              type: 'is-warning',
+              position: 'is-top-right',
+              actionText: null,
+              duration: 3000
+            })
+          }
+        })
+      }
+    },
+    inputChange(name) {
+      Object.keys(this.form.errorResponses[name]).forEach((key, index) => {
+        this.form.errorResponses[name][key] = false
       })
     },
     pushtoLogin() {
       this.$router.push('/login')
     }
   }
-  }
+}
 </script>
+
+<style lang="stylus">
+#signUpButton {
+  box-shadow: 2px 2px 2px 0 #ccc;
+}
+</style>

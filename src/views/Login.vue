@@ -49,6 +49,7 @@ export default {
       password: ''
     }
   },
+
   methods: {
     ...mapActions((['login', 'googleLogin'])),
     loginUser() {
