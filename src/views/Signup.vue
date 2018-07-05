@@ -6,24 +6,20 @@
           <div class="column is-4 is-offset-4">
             <h3 class="title has-text-grey">Sign-Up</h3>
             <div class="box">
-                <h2 class="subtitle has-text-grey">Welcome to StockApp</h2>
+              <h2 class="subtitle has-text-grey">Welcome to StockApp</h2>
               <form @submit.prevent="createNewUser()">
                 <custom-input v-model='form.email' name="email" type="email" :formData="form" label="Email" :handler="$v" placeholder="Your Email" required @change="inputChange('email')"/>
                 <custom-input v-model='form.password' name="password" type="password" label="Password" :formData="form" :handler="$v" placeholder="Your Password" required/>
-                <br>
-                <div class="field has-text-grey">
-                  <b-checkbox v-model="form.checkbox" type="is-success">
-                    Terms and Conditions
+                <div class="field has-text-grey" id="checkboxSignUp">
+                  <b-checkbox v-model="form.checkbox" type="is-success" @change="$v.checky.$touch()" :handler="$v">
+                    I agree to <span class="link" @click="termsCondition()">terms and conditions.</span>
                   </b-checkbox>
                 </div>
-                <button :class="pending ? 'button is-block is-light is-fullwidth is-loading':'button is-block is-light is-fullwidth'" id="signUpButton" :loading="pending">Register</button>
+                <button :class="pendingSignup ? 'button is-block is-light is-fullwidth is-loading':'button is-block is-light is-fullwidth'" id="signUpButton" :loading="pending">Register</button>
               </form>
               <br>
               <button class="button is-block is-fullwidth is-danger" @click="pushtoLogin()">Back</button>           
             </div>
-            <p class="has-text-grey">
-              <a href="../">Terms & Conditions</a>
-            </p>
           </div>
         </div>
       </div>
@@ -49,6 +45,9 @@ export default {
           },
           password: {
             validPassword: 'Must have an alphabet and a number'
+          },
+          checkbox: {
+            required: 'Required'
           }
         },
         errorResponses: {
@@ -75,11 +74,11 @@ export default {
             return /(?=.*[0-9])(?=.*[a-zA-Z])/i.test(value)
           }
         },
-      }
+      },
     }
   },
   computed: {
-    ...mapGetters(['pending'])
+    ...mapGetters(['pendingSignup'])
   },
   components: {
     CustomInput
@@ -114,6 +113,9 @@ export default {
         this.form.errorResponses[name][key] = false
       })
     },
+    termsCondition() {
+
+    },
     pushtoLogin() {
       this.$router.push('/login')
     }
@@ -124,5 +126,14 @@ export default {
 <style lang="stylus">
 #signUpButton {
   box-shadow: 2px 2px 2px 0 #ccc;
+}
+#checkboxSignUp {
+  text-align: left;
+  font-size: 0.8rem;
+  margin: 20px 0;
+  .link {
+    color: #7957d5;
+    font-weight: 500;
+  }
 }
 </style>

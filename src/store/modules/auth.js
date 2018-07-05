@@ -6,7 +6,9 @@ function initialState() {
   return {
     user: {},
     isLoggedIn: false,
-    pending: false
+    pendingLogin: false,
+    pendingSignup: false,
+    pendingGoogle: false
   }
 }
 const state = {
@@ -14,7 +16,9 @@ const state = {
 }
 
 const getters = {
-  pending: state => state.pending,
+  pendingLogin: state => state.pendingLogin,
+  pendingSignUp: state => state.pendingSignUp,
+  pendingGoogle: state => state.pendingGoogle,
   isLoggedIn: state => state.isLoggedIn,
   user: state => state.user
 }
@@ -38,9 +42,15 @@ const mutations = {
 }
 
 const actions = {
-  login({commit}, payload) {
-    firebase.auth().signInWithEmailAndPassword(payload.email, payload.password).catch(err => {
-    })
+  async login({commit}, payload) {
+    state.pendingLogin = true
+    try {
+      await firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
+      state.pendingLogin = false
+    } catch(err) {
+      state.pendingLogin = false
+      throw err
+    }
   },
   logout({ commit }) {
     firebase.auth().signOut().then(() => {
@@ -49,15 +59,22 @@ const actions = {
     })
   },
   async googleLogin() {
+    state.pendingGoogle = true
     const provider = new firebase.auth.GoogleAuthProvider();
-    await firebase.auth().signInWithPopup(provider);
+    try {
+      await firebase.auth().signInWithPopup(provider);
+      state.pendingGoogle = false
+    } catch (err) {
+      state.pendingGoogle = false      
+      throw err
+    }
   },
   signUp({ commit,state }, payload) {
-    state.pending = true
+    state.pendingSignup = true
     return firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password).then(res => {
-      state.pending = false
+      state.pendingSignup = false
     }).catch(err => {
-      state.pending = false      
+      state.pendingSignup = false      
       throw err
     })
   }
