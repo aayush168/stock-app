@@ -17,7 +17,7 @@ const state = {
 
 const getters = {
   pendingLogin: state => state.pendingLogin,
-  pendingSignUp: state => state.pendingSignUp,
+  pendingSignUp: state => state.pendingSignup,
   pendingGoogle: state => state.pendingGoogle,
   isLoggedIn: state => state.isLoggedIn,
   user: state => state.user

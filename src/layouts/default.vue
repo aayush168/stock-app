@@ -23,4 +23,7 @@ export default {
 .label {
   font-weight: 400;
 }
+.select, .select select {
+  width: 100%;
+}
 </style>

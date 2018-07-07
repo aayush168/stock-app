@@ -112,7 +112,4 @@ export default {
 </script>
 
 <style lang="stylus">
-#logo {
-  margin-right: 50px;
-}
 </style>

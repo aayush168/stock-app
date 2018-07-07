@@ -1,5 +1,5 @@
 <template>
-<section class="hero is-fullheight">
+<section class="container is-widescreen">
   <div class="tile is-ancestor">
   <div class="tile is-parent">
     <div class="tile is-child box">

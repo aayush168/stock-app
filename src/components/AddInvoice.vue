@@ -1,17 +1,11 @@
 <template>
-  <div class="mainWrapper">
+  <div class="mainWrapper container is-widescreen">
     <h2 class="subtitle is-4">Add Invoice</h2>
       <div class="invoiceHeader">
         <b-field label="Customer">
           <b-input v-model="clientName" required type="text"></b-input>
         </b-field>
         <b-field label="Date">
-          <b-datepicker
-            placeholder="Click to select..."
-            icon="calendar-today">
-          </b-datepicker>
-        </b-field>
-        <b-field label="Due Date">
           <b-datepicker
             placeholder="Click to select..."
             icon="calendar-today">
