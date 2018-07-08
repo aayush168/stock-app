@@ -50,7 +50,7 @@ export default {
         productDescription: '',
         productQuantity: '',
         productUnit: 'Kilogram',
-        initialDate: '',
+        initialDate: new Date(),
         productCost: '',
         totalAmount: '',
         errorMessages: {
@@ -79,11 +79,20 @@ export default {
   components: {
     CustomInput
   },
-  inputChange(name) {
-    this.defaultError = ''
-    Object.keys(this.form.errorResponses[name]).forEach((key, index) => {
-      this.form.errorResponses[name][key] = false
-    })
+  methods: {
+    addProduct() {
+      this.$v.form.$touch()
+      if(this.$v.form.$error) {
+        console.log('error')
+      } else {
+      }
+    },
+    inputChange(name) {
+      this.defaultError = ''
+      Object.keys(this.form.errorResponses[name]).forEach((key, index) => {
+        this.form.errorResponses[name][key] = false
+      })
+    }
   }
 }
 </script>

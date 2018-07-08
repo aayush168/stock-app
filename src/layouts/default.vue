@@ -18,7 +18,7 @@ export default {
 
 <style lang="stylus">
 .mainWrapper {
-  padding: 20px;
+  padding: 20px 0;
 }
 .label {
   font-weight: 400;
