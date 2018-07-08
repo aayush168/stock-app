@@ -2,9 +2,9 @@
   <div class="mainWrapper is-light container is-widescreen">
     <h2 class="subtitle is-4">Add Products</h2>
     <p>Products and services that you buy from vendors are used as items on Bills to record those purchases, and the ones that you sell to customers are used as items on Invoices to record those sales.</p><br>
-    <form @submit.prevent="setCompanyProfile()">
-      <custom-input v-model='form.productName' name="productName" type="text" :formData="form" label="Product Name" :handler="$v" placeholder="Enter Product Name" required @change="inputChange('productName')"/>
-      <custom-input v-model='form.productDescription' name="productDescription" type="text" :formData="form" label="Product Description" :handler="$v" placeholder="Enter Product Description" required @change="inputChange('productDescription')"/>
+    <form @submit.prevent="addProduct()">
+      <custom-input v-model='form.productName' name="productName" type="text" :formData="form" label="Product Name" :handler="$v" placeholder="Enter Product Name" required/>
+      <custom-input v-model='form.productDescription' name="productDescription" type="text" :formData="form" label="Product Description" :handler="$v" placeholder="Enter Product Description" required/>
       <b-field label="Unit of Measure">
         <b-select placeholder="Select" v-model="form.productUnit">
           <option
@@ -16,7 +16,7 @@
         </b-select>
       </b-field>
       <div class="twoColumnWrapper">
-        <custom-input v-model='form.productQuantity' name="productQuantity" type="number" :formData="form" label="Initial Quantity in Hand" :handler="$v" placeholder="Enter Product Quantity" required/>
+        <custom-input v-model='form.productQuantity' name="productQuantity" type="text" :formData="form" label="Initial Quantity in Hand" :handler="$v" placeholder="Enter Product Quantity" required/>
         <b-field label="As on Date" id="datePicker">
           <b-datepicker
             placeholder="Click to select..."
@@ -27,8 +27,13 @@
         </b-field>
       </div>
       <div class="twoColumnWrapper">
-        <custom-input v-model='form.productCost' name="productCost" type="number" :formData="form" label="Initial Cost/Unit" :handler="$v" placeholder="Enter Product Cost" required/>
-        <custom-input v-model='form.totalAmount' name="totalAmount" type="number" :formData="form" label="Total Amount" :handler="$v" placeholder="value" readonly/>        
+        <custom-input v-model='form.productCost' name="productCost" type="text" :formData="form" label="Initial Cost/Unit" :handler="$v" placeholder="Enter Product Cost" required/>
+        <div class="customInputWrapper">
+          <label class="label">Total Amount</label>
+          <div class="input">
+            {{totalAmount}}  
+          </div>    
+        </div>  
       </div>
       <br>
       <p class="buttonWrapper">
@@ -40,6 +45,8 @@
 
 <script>
 import CustomInput from '@/components/CustomInput';
+import { numeric } from 'vuelidate/lib/validators';
+import { mapActions } from 'vuex';
 
 export default {
   data () {
@@ -52,39 +59,59 @@ export default {
         productUnit: 'Kilogram',
         initialDate: new Date(),
         productCost: '',
-        totalAmount: '',
         errorMessages: {
           productName: {},
           productDescription: {},
-          productQuantity: {},
+          productQuantity: {
+            numeric: 'Enter valid numbers'
+          },
           productUnit: {},
           initialDate: {},
-          productCost: {},
-          totalAmount: {}
+          productCost: {
+            numeric: 'Enter valid numbers'
+          },
         }
       }
+    }
+  },
+  computed: {
+    totalAmount: function() {
+      return this.form.productQuantity * this.form.productCost
     }
   },
   validations: {
     form: {
       productName: {},
       productDescription: {},
-      productQuantity: {},
+      productQuantity: {
+        numeric
+      },
       unitList: {},
       initialDate: {},
-      productCost: {},
-      totalAmount: {}
+      productCost: {
+        numeric
+      }
     }
   },
   components: {
     CustomInput
   },
   methods: {
+    ...mapActions(['setProduct']),
     addProduct() {
       this.$v.form.$touch()
       if(this.$v.form.$error) {
         console.log('error')
       } else {
+        let productData = {
+          name: this.form.productName,
+          description: this.form.productDescription,
+          unit: this.form.productUnit,
+          quantity: this.form.productQuantity,
+          cost: this.productCost,
+          total: this.totalAmount
+        }
+        this.setProduct(productData)
       }
     },
     inputChange(name) {

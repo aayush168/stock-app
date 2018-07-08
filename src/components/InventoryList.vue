@@ -6,6 +6,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
     export default {
         data() {
             return {
@@ -42,6 +44,12 @@
                     }
                 ]
             }
+        },
+        methods: {
+            ...mapActions(['getProducts'])
+        },
+        mounted() {
+            this.getProducts()
         }
     }
 </script>
