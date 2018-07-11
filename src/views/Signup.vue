@@ -132,7 +132,6 @@ export default {
   font-size: 0.8rem;
   margin: 20px 0;
   .link {
-    color: #7957d5;
     font-weight: 500;
   }
 }

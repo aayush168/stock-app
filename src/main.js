@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Buefy from 'buefy';
 import 'buefy/lib/buefy.css';
+import '@fortawesome/fontawesome-free/css/all.css'
 import { VueExtendLayout, layout } from 'vue-extend-layout'
 
 import Vuelidate from 'vuelidate'
