@@ -1,5 +1,5 @@
 <template>
-  <section class="container is-widescreen">
+  <section class="container">
     <h1 class="title is-4">Hello Aayush,</h1>
     <h2 class="subtitle is-6">Welcome to Dashboard</h2>
     <div class="columns">

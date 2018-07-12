@@ -13,6 +13,7 @@
         :disabled="disabled" 
         :readonly="readonly"
         :class="formHandle.$error ? 'is-danger': ''"
+        :icon="iconName"
       >
       </b-input>
       <p :class="formHandle.$error ? 'help is-danger': 'help'" v-if="formHandle.$error" v-for="error in errors" :key="error">{{ errorMessage[error] }}.</p>
@@ -38,7 +39,8 @@ export default {
     'disabled',
     'readonly',
     'required',
-    'label'
+    'label',
+    'iconName'
   ],
   model: {
     prop: 'model',

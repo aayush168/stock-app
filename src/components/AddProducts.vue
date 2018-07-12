@@ -20,8 +20,9 @@
         <b-field label="As on Date" id="datePicker">
           <b-datepicker
             placeholder="Click to select..."
-            icon="calendar-today"
+            icon="far fa-calendar-alt"
             v-model="form.initialDate"
+            iconPack="fa"
           >
           </b-datepicker>
         </b-field>
@@ -37,7 +38,7 @@
       </div>
       <br>
       <p class="buttonWrapper">
-        <button class="button is-success">Add</button>
+        <button class="button is-primary">Add</button>
       </p>
     </form>
   </div>
@@ -108,10 +109,12 @@ export default {
           description: this.form.productDescription,
           unit: this.form.productUnit,
           quantity: this.form.productQuantity,
-          cost: this.productCost,
+          cost: this.form.productCost,
           total: this.totalAmount
         }
-        this.setProduct(productData)
+        this.setProduct(productData).then(() => {
+          this.$v.form.$reset()         
+        })
       }
     },
     inputChange(name) {

@@ -1,56 +1,57 @@
 <template>
-  <div class="mainWrapper">
-    <h2 class="subtitle is-4">Inventory List</h2>
-    <b-table :data="data" :columns="columns"></b-table>
+  <div class="container mainWrapper">
+    <h1 class="subtitle">Stock Lists</h1>
+    <div class="columns">
+      <div class="column">
+        Product Name 
+      </div>
+      <div class="column">
+        Product Quanity
+      </div>
+      <div class="column">
+        Product Cost
+      </div>
+      <div class="column">
+        Total Cost
+      </div>
+    </div>
+    <div class="card is-spaced" v-for="(product, index) in productLists" :key="index">
+      <div class="card-content">
+        <div class="columns">
+          <div class="column">
+            {{index+1+'.'+ ' '+ product.name}}
+          </div>
+          <div class="column">
+            {{product.quantity+ ' ' +product.unit}}
+          </div>
+          <div class="column">
+            {{product.cost}}
+          </div>
+          <div class="column">
+            {{product.total}}
+          </div>
+        </div>
+      </div>  
+    </div>
   </div>
 </template>
-
 <script>
-import { mapActions } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex';
 
-    export default {
-        data() {
-            return {
-                data: [
-                    { 'id': 1, 'first_name': 'Jesse', 'last_name': 'Simmons', 'date': '2016-10-15 13:43:27', 'gender': 'Male' },
-                    { 'id': 2, 'first_name': 'John', 'last_name': 'Jacobs', 'date': '2016-12-15 06:00:53', 'gender': 'Male' },
-                    { 'id': 3, 'first_name': 'Tina', 'last_name': 'Gilbert', 'date': '2016-04-26 06:26:28', 'gender': 'Female' },
-                    { 'id': 4, 'first_name': 'Clarence', 'last_name': 'Flores', 'date': '2016-04-10 10:28:46', 'gender': 'Male' },
-                    { 'id': 5, 'first_name': 'Anne', 'last_name': 'Lee', 'date': '2016-12-06 14:38:38', 'gender': 'Female' }
-                ],
-                columns: [
-                    {
-                        field: 'id',
-                        label: 'ID',
-                        width: '40',
-                        numeric: true
-                    },
-                    {
-                        field: 'first_name',
-                        label: 'First Name',
-                    },
-                    {
-                        field: 'last_name',
-                        label: 'Last Name',
-                    },
-                    {
-                        field: 'date',
-                        label: 'Date',
-                        centered: true
-                    },
-                    {
-                        field: 'gender',
-                        label: 'Gender',
-                    }
-                ]
-            }
-        },
-        methods: {
-            ...mapActions(['getProducts'])
-        },
-        mounted() {
-            this.getProducts()
-        }
+  export default {
+    data() {
+      return {
+        productData: []
+      }
+    },
+    computed: {
+      ...mapGetters(['productLists'])
+    },
+    methods: {
+      ...mapActions(['getProducts'])
+    },
+    mounted() {
+      this.getProducts()
     }
+  }
 </script>
-
